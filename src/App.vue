@@ -3,6 +3,7 @@
     <Loader v-if="!isLoaded" />
     <Header />
     <Main :List="images" />
+    <Footer :List="images" />
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 import Main from "./components/Main.vue";
 import Header from "./components/Header.vue";
 import Loader from "./components/Loader.vue";
+import Footer from "./components/Footer.vue";
 import axios from "axios";
 export default {
   name: "App",
@@ -17,6 +19,7 @@ export default {
     Main,
     Header,
     Loader,
+    Footer,
   },
   data() {
     return {
@@ -24,23 +27,20 @@ export default {
       isLoaded: undefined,
     };
   },
-  // methods: {
-  //   getImages() {
-  //     axios
-  //       .get("https://flynn.boolean.careers/exercises/api/array/music")
-  //       .then((res) => {
-  //         this.images = res.data.response;
-  //       });
-  //   },
+  methods: {
+    getImages() {
+      this.isLoaded = false;
+      axios
+        .get("https://flynn.boolean.careers/exercises/api/array/music")
+        .then((res) => {
+          this.images = res.data.response;
+          this.isLoaded = true;
+        });
+    },
+  },
 
   mounted() {
-    this.isLoaded = false;
-    axios
-      .get("https://flynn.boolean.careers/exercises/api/array/music")
-      .then((res) => {
-        this.images = res.data.response;
-        this.isLoaded = true;
-      });
+    this.getImages();
   },
 };
 </script>
