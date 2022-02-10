@@ -4,6 +4,9 @@
       <div class="col-5" v-for="item in List" :key="item.poster">
         <div class="content">
           <img src="item.poster" alt="item.author" />
+          <h2>{{ item.title }}</h2>
+          <p>{{ item.author }}</p>
+          <p>{{ item.year }}</p>
         </div>
       </div>
     </div>
@@ -14,6 +17,11 @@
 export default {
   name: "Main",
   props: ["List"],
+  data() {
+    return {
+      getImageUrl() {},
+    };
+  },
 };
 </script>
 
@@ -23,8 +31,18 @@ main {
   height: 100vh;
 }
 
+h2 {
+  color: white;
+}
+
+p {
+  color: grey;
+  font-size: 18px;
+}
+
 .col-5 {
   width: 20%;
+  text-align: center;
   .content {
     background-color: rgb(38, 38, 109);
   }
