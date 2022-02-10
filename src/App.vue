@@ -1,18 +1,27 @@
 <template>
-  <Main :List="images" />
+  <div>
+    <Loader v-if="!isLoaded" />
+    <Header />
+    <Main :List="images" />
+  </div>
 </template>
 
 <script>
 import Main from "./components/Main.vue";
+import Header from "./components/Header.vue";
+import Loader from "./components/Loader.vue";
 import axios from "axios";
 export default {
   name: "App",
   components: {
     Main,
+    Header,
+    Loader,
   },
   data() {
     return {
       images: [],
+      isLoaded: undefined,
     };
   },
   // methods: {
@@ -25,20 +34,17 @@ export default {
   //   },
 
   mounted() {
+    this.isLoaded = false;
     axios
       .get("https://flynn.boolean.careers/exercises/api/array/music")
       .then((res) => {
         this.images = res.data.response;
+        this.isLoaded = true;
       });
   },
 };
 </script>
 
 <style lang="scss">
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  width: 1000px;
-  margin: auto;
-}
+@import "./sass/style.scss";
 </style>
