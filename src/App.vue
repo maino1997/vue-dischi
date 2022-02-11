@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-if="!isLoaded" />
-    <Header />
+    <Header :genres="genres" />
     <Main :List="images" />
     <Footer :List="images" />
   </div>
@@ -24,10 +24,21 @@ export default {
   data() {
     return {
       images: [],
+      genres: [],
       isLoaded: undefined,
+      selectedValue: "",
     };
   },
   methods: {
+    getGenresList() {
+      for (let i = 0; i < this.images.length; i++) {
+        const newGenre = this.images[i].genre;
+        if (!this.genres.includes(newGenre)) {
+          this.genres.push(newGenre);
+        }
+      }
+    },
+
     getImages() {
       this.isLoaded = false;
       axios
@@ -39,8 +50,16 @@ export default {
     },
   },
 
-  mounted() {
+  // selected() {
+  //   this.selectedValue = selectedGenre;
+  //   console.log(this.selectedValue);
+  // },
+
+  created() {
     this.getImages();
+  },
+  updated() {
+    this.getGenresList();
   },
 };
 </script>
