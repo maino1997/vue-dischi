@@ -1,7 +1,7 @@
 <template>
   <header>
     <img src="../assets/spotify.png" alt="" />
-    <Sel :genres="genres" @clicked="selected" />
+    <Sel :genres="genres" @newGenre="newGenre" />
   </header>
 </template>
 
@@ -15,8 +15,8 @@ export default {
   },
   props: ["genres"],
   methods: {
-    selected(value) {
-      console.log(value);
+    newGenre(value) {
+      this.$emit("newGenre", value);
     },
   },
 };

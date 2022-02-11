@@ -1,11 +1,6 @@
 <template>
-  <select v-model="selectedGenre">
-    <option
-      v-for="genre in genres"
-      :key="genre"
-      :value="genre"
-      @change="$emit('clicked', selectedGenre)"
-    >
+  <select v-model="selectedGenre" @change="setGenre">
+    <option v-for="genre in genres" :key="genre" :value="genre">
       {{ genre }}
     </option>
   </select>
@@ -19,6 +14,14 @@ export default {
     return {
       selectedGenre: "",
     };
+  },
+  methods: {
+    setGenre() {
+      this.$emit("newGenre", this.selectedGenre);
+    },
+    logGenre() {
+      console.log(this.selectedGenre);
+    },
   },
 };
 </script>

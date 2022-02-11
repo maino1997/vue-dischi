@@ -1,8 +1,8 @@
 <template>
   <div>
     <Loader v-if="!isLoaded" />
-    <Header :genres="genres" />
-    <Main :List="images" />
+    <Header :genres="genres" @newGenre="getValue" />
+    <Main :List="getRightList" />
     <Footer :List="images" />
   </div>
 </template>
@@ -26,9 +26,23 @@ export default {
       images: [],
       genres: [],
       isLoaded: undefined,
-      selectedValue: "",
+      selectedGenre: "",
     };
   },
+  computed: {
+    getNewArray() {
+      return this.images.filter((song) => this.selectedGenre === song.genre);
+    },
+
+    getRightList() {
+      if (this.selectedGenre) {
+        return this.images.filter((song) => this.selectedGenre === song.genre);
+      } else {
+        return this.images;
+      }
+    },
+  },
+
   methods: {
     getGenresList() {
       for (let i = 0; i < this.images.length; i++) {
@@ -38,7 +52,6 @@ export default {
         }
       }
     },
-
     getImages() {
       this.isLoaded = false;
       axios
@@ -48,16 +61,16 @@ export default {
           this.isLoaded = true;
         });
     },
+    getValue(value) {
+      this.selectedGenre = value;
+      console.log(value);
+    },
   },
-
-  // selected() {
-  //   this.selectedValue = selectedGenre;
-  //   console.log(this.selectedValue);
-  // },
 
   created() {
     this.getImages();
   },
+
   updated() {
     this.getGenresList();
   },

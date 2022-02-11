@@ -24,6 +24,7 @@ export default {
 @import "../sass/vars.scss";
 main {
   background-color: $light_blue;
+  height: calc(100vh - 50px);
 }
 
 h2 {
