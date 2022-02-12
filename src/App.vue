@@ -3,7 +3,7 @@
     <Loader v-if="!isLoaded" />
     <Header :genres="genres" @newGenre="getGenreValue" :authors="authors" />
     <Main :List="getRightList" />
-    <Footer :List="images" />
+    <Footer :List="mainList" />
   </div>
 </template>
 
@@ -23,34 +23,48 @@ export default {
   },
   data() {
     return {
-      images: [],
+      mainList: [],
       genres: [],
       authors: [],
-      rightList: [],
       isLoaded: undefined,
       selectedValue: "",
     };
   },
   computed: {
     getNewArray() {
-      return this.images.filter((song) => this.selectedValue === song.genre);
+      return this.mainList.filter((song) => this.selectedValue === song.genre);
     },
 
     getRightList() {
       if (this.genres.includes(this.selectedValue)) {
-        return this.images.filter((song) => this.selectedValue === song.genre);
+        return this.mainList.filter(
+          (song) => this.selectedValue === song.genre
+        );
       } else if (this.authors.includes(this.selectedValue)) {
-        return this.images.filter((song) => this.selectedValue === song.author);
+        return this.mainList.filter(
+          (song) => this.selectedValue === song.author
+        );
       } else {
-        return this.images;
+        return this.mainList;
       }
     },
+
+    // SE VOGLIO FARE QUESTO DEVO PUSHARE NEGLI ARRAY DI GENRE E AUTHORS GLI OGGETTI E NON SOLO LE STRINGHE
+    // getRightList() {
+    //   if (this.genres.includes(this.selectedValue)) {
+    //     this.mainList = this.genres;
+    //   } else if (this.authors.includes(this.selectedValue)) {
+    //     this.mainList = this.authors;
+    //   }
+    //   console.log(this.mainList);
+    //   return this.mainList;
+    // },
   },
 
   methods: {
     getGenresList() {
-      for (let i = 0; i < this.images.length; i++) {
-        const newGenre = this.images[i].genre;
+      for (let i = 0; i < this.mainList.length; i++) {
+        const newGenre = this.mainList[i].genre;
         if (!this.genres.includes(newGenre)) {
           this.genres.push(newGenre);
         }
@@ -58,8 +72,8 @@ export default {
     },
 
     getAuthorsList() {
-      for (let i = 0; i < this.images.length; i++) {
-        const newAuthor = this.images[i].author;
+      for (let i = 0; i < this.mainList.length; i++) {
+        const newAuthor = this.mainList[i].author;
         if (!this.authors.includes(newAuthor)) {
           this.authors.push(newAuthor);
         }
@@ -71,7 +85,7 @@ export default {
       axios
         .get("https://flynn.boolean.careers/exercises/api/array/music")
         .then((res) => {
-          this.images = res.data.response;
+          this.mainList = res.data.response;
           this.isLoaded = true;
         });
     },
