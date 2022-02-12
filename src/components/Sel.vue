@@ -1,5 +1,6 @@
 <template>
   <select v-model="selectedGenre" @change="setGenre">
+    <option value="" selected>TUTTI</option>
     <option v-for="genre in genres" :key="genre" :value="genre">
       {{ genre }}
     </option>

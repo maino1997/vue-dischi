@@ -1,5 +1,6 @@
 <template>
   <select v-model="selectedAuthor" @change="setAuthor">
+    <option value="" selected>TUTTI</option>
     <option v-for="author in authors" :key="author" :value="author">
       {{ author }}
     </option>
