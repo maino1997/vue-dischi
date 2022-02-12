@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-if="!isLoaded" />
-    <Header :genres="genres" @newGenre="getValue" />
+    <Header :genres="genres" @newGenre="getGenreValue" :authors="authors" />
     <Main :List="getRightList" />
     <Footer :List="images" />
   </div>
@@ -25,18 +25,22 @@ export default {
     return {
       images: [],
       genres: [],
+      authors: [],
+      rightList: [],
       isLoaded: undefined,
-      selectedGenre: "",
+      selectedValue: "",
     };
   },
   computed: {
     getNewArray() {
-      return this.images.filter((song) => this.selectedGenre === song.genre);
+      return this.images.filter((song) => this.selectedValue === song.genre);
     },
 
     getRightList() {
-      if (this.selectedGenre) {
-        return this.images.filter((song) => this.selectedGenre === song.genre);
+      if (this.genres.includes(this.selectedValue)) {
+        return this.images.filter((song) => this.selectedValue === song.genre);
+      } else if (this.authors.includes(this.selectedValue)) {
+        return this.images.filter((song) => this.selectedValue === song.author);
       } else {
         return this.images;
       }
@@ -52,6 +56,16 @@ export default {
         }
       }
     },
+
+    getAuthorsList() {
+      for (let i = 0; i < this.images.length; i++) {
+        const newAuthor = this.images[i].author;
+        if (!this.authors.includes(newAuthor)) {
+          this.authors.push(newAuthor);
+        }
+      }
+    },
+
     getImages() {
       this.isLoaded = false;
       axios
@@ -61,8 +75,12 @@ export default {
           this.isLoaded = true;
         });
     },
-    getValue(value) {
-      this.selectedGenre = value;
+    getGenreValue(value) {
+      this.selectedValue = value;
+      console.log(value);
+    },
+    getAuthorValue(value) {
+      this.selectedAuthor = value;
       console.log(value);
     },
   },
@@ -73,6 +91,7 @@ export default {
 
   updated() {
     this.getGenresList();
+    this.getAuthorsList();
   },
 };
 </script>

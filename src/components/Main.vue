@@ -24,7 +24,8 @@ export default {
 @import "../sass/vars.scss";
 main {
   background-color: $light_blue;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 87px);
+  overflow-y: auto;
 }
 
 h2 {
@@ -55,6 +56,11 @@ img {
     margin: 30px 0;
     padding: 20px;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.8);
+    cursor: pointer;
+    transition: 0.2s linear;
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 }
 </style>
